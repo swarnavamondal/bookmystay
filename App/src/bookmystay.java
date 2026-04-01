@@ -1,148 +1,29 @@
 /**
- * HotelBookingApp demonstrates room search and availability check.
+ * HotelBookingApp is the entry point for the Hotel Booking System application.
  * <p>
- * This use case introduces read-only access to inventory for guests,
- * ensuring system state remains unchanged while providing accurate information.
+ * This class demonstrates how a Java program begins execution and prints
+ * a welcome message to the console.
  * </p>
  *
- * Author: YourName
- * Version: 1.3
+ * @author YourName
+ * @version 1.0
  */
-
-import java.util.ArrayList;
-import java.util.List;
-
-public class HotelBookingApp {
-
-    public static void main(String[] args) {
-        System.out.println("=======================================");
-        System.out.println("     Welcome to Hotel Booking System    ");
-        System.out.println("               Version 1.3              ");
-        System.out.println("=======================================");
-
-        // Initialize room objects
-        List<Room> rooms = new ArrayList<>();
-        rooms.add(new SingleRoom());
-        rooms.add(new DoubleRoom());
-        rooms.add(new SuiteRoom());
-
-        // Initialize centralized room inventory
-        RoomInventory inventory = new RoomInventory();
-        inventory.registerRoom("Single Room", 10);
-        inventory.registerRoom("Double Room", 0); // simulate fully booked
-        inventory.registerRoom("Suite Room", 2);
-
-        // Perform read-only search
-        SearchService searchService = new SearchService(inventory, rooms);
-        System.out.println("\n--- Available Rooms for Guests ---\n");
-        searchService.displayAvailableRooms();
-
-        System.out.println("\nApplication execution completed.");
-    }
-}
-
-/**
- * Service to handle guest room search without modifying inventory.
- */
-class SearchService {
-    private RoomInventory inventory;
-    private List<Room> rooms;
-
-    public SearchService(RoomInventory inventory, List<Room> rooms) {
-        this.inventory = inventory;
-        this.rooms = rooms;
-    }
+public class bookmystay {
 
     /**
-     * Displays all rooms with availability greater than zero.
+     * The main method is the entry point of the application.
+     * The JVM starts execution from this method.
+     *
+     * @param args command-line arguments (not used in this use case)
      */
-    public void displayAvailableRooms() {
-        boolean anyAvailable = false;
+    public static void main(String[] args) {
+        // Print welcome message to the console
+        System.out.println("=======================================");
+        System.out.println("     Welcome to Hotel Booking System    ");
+        System.out.println("               Version 1.0              ");
+        System.out.println("=======================================");
 
-        for (Room room : rooms) {
-            int availableCount = inventory.getAvailability(room.getType());
-            if (availableCount > 0) {
-                System.out.println(room.getDetails() + " | Available: " + availableCount);
-                anyAvailable = true;
-            }
-        }
-
-        if (!anyAvailable) {
-            System.out.println("No rooms are currently available.");
-        }
-    }
-}
-
-/* --- Room and RoomInventory classes reused from Use Case 3 --- */
-abstract class Room {
-    protected String type;
-    protected int beds;
-    protected double pricePerNight;
-
-    public String getType() {
-        return type;
-    }
-
-    public String getDetails() {
-        return "Room Type: " + type + ", Beds: " + beds + ", Price/Night: $" + pricePerNight;
-    }
-}
-
-class SingleRoom extends Room {
-    public SingleRoom() {
-        this.type = "Single Room";
-        this.beds = 1;
-        this.pricePerNight = 50.0;
-    }
-}
-
-class DoubleRoom extends Room {
-    public DoubleRoom() {
-        this.type = "Double Room";
-        this.beds = 2;
-        this.pricePerNight = 90.0;
-    }
-}
-
-class SuiteRoom extends Room {
-    public SuiteRoom() {
-        this.type = "Suite Room";
-        this.beds = 3;
-        this.pricePerNight = 150.0;
-    }
-}
-
-import java.util.HashMap;
-import java.util.Map;
-
-class RoomInventory {
-    private Map<String, Integer> inventoryMap;
-
-    public RoomInventory() {
-        inventoryMap = new HashMap<>();
-    }
-
-    public void registerRoom(String roomType, int count) {
-        inventoryMap.put(roomType, count);
-    }
-
-    public int getAvailability(String roomType) {
-        return inventoryMap.getOrDefault(roomType, 0);
-    }
-
-    public void updateAvailability(String roomType, int change) {
-        int current = inventoryMap.getOrDefault(roomType, 0);
-        int updated = current + change;
-        if (updated < 0) {
-            System.out.println("Error: Not enough rooms available for " + roomType);
-        } else {
-            inventoryMap.put(roomType, updated);
-        }
-    }
-
-    public void displayInventory() {
-        for (Map.Entry<String, Integer> entry : inventoryMap.entrySet()) {
-            System.out.println("Room Type: " + entry.getKey() + " | Available: " + entry.getValue());
-        }
+        // Indicate that the application has started successfully
+        System.out.println("Application has started successfully!");
     }
 }
